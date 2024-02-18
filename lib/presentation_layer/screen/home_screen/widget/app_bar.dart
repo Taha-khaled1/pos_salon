@@ -1,6 +1,8 @@
 import 'package:pos_animal/presentation_layer/screen/home_screen/controller/home_controller.dart';
 import 'package:pos_animal/presentation_layer/screen/home_screen/home_screen.dart';
 import 'package:pos_animal/presentation_layer/screen/home_screen/models/IconTitleHorizantals.dart';
+import 'package:pos_animal/presentation_layer/screen/home_screen/widget/change_password.dart';
+import 'package:pos_animal/presentation_layer/screen/store_order/store_order.dart';
 
 import '../../../src/account_url.dart';
 
@@ -18,7 +20,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 670,
+      width: 700,
       height: 75,
       color: Color(0xFFE5FBFF),
       child: Row(
@@ -98,13 +100,96 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             width: 100,
             height: 40,
             backgroundColor: Colors.white,
-            fontSize: 16,
+            fontSize: 14,
             text: "add client",
             colorText: ColorManager.kPrimary,
-            press: () {},
+            press: () {
+              changePasswordhowBottomSheet(context);
+            },
+          ),
+          // GestureDetector(
+          //   child: Text("store oreder"),
+          //   onTap: () {
+          //     Get.to(() => StoreOrderScreen());
+          //   },
+          // )
+          // SizedBox(
+          //   width: 4,
+          // ),
+          // CustomButton(
+          //   width: 110,
+          //   height: 40,
+          //   backgroundColor: Colors.white,
+          //   fontSize: 14,
+          //   text: "save oreder",
+          //   colorText: ColorManager.kPrimary,
+          //   press: () {
+          //     Get.to(() => StoreOrderScreen());
+          //   },
+          // ),
+        ],
+      ),
+    );
+  }
+}
+
+class CustomAlertDialog extends StatefulWidget {
+  @override
+  _CustomAlertDialogState createState() => _CustomAlertDialogState();
+}
+
+class _CustomAlertDialogState extends State<CustomAlertDialog> {
+  // Controller for text fields
+  TextEditingController field1Controller = TextEditingController();
+  TextEditingController field2Controller = TextEditingController();
+  TextEditingController field3Controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Custom Alert Dialog'),
+      content: Column(
+        children: [
+          TextField(
+            controller: field1Controller,
+            decoration: InputDecoration(labelText: 'Field 1'),
+          ),
+          TextField(
+            controller: field2Controller,
+            decoration: InputDecoration(labelText: 'Field 2'),
+          ),
+          TextField(
+            controller: field3Controller,
+            decoration: InputDecoration(labelText: 'Field 3'),
           ),
         ],
       ),
+      actions: [
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the dialog
+          },
+          child: Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            // Access the values entered in the text fields
+            String value1 = field1Controller.text;
+            String value2 = field2Controller.text;
+            String value3 = field3Controller.text;
+
+            // Process the values as needed
+            // For example, print them to the console
+            print('Field 1: $value1');
+            print('Field 2: $value2');
+            print('Field 3: $value3');
+
+            // Close the dialog
+            Navigator.of(context).pop();
+          },
+          child: Text('OK'),
+        ),
+      ],
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:path/path.dart';
 import 'package:pos_animal/main.dart';
+import 'package:pos_animal/presentation_layer/screen/login/login.dart';
 import 'package:pos_animal/presentation_layer/src/get_packge.dart';
 
 class Curd {
@@ -21,25 +22,33 @@ class Curd {
 
   Map<String, String> myheaders3 = {
     'Authorization':
-        'Bearer 9P2kPUdSUfVgWqFz4dy2M991TbAQY2iVwSVRpWvMiLZfLAFG2Xtt5svy6HIIqJ3wOVDyKuzt0jCKWYxRPf3PJMaCdOQPlslVNL4cqTobZMlbDpDm4bgtMTluibL3CYu8MJRJobxzZKlpJCBQsT8LB5xKRt8A1MxpXyeWdYpIZUx3CqxTMkUXi5M3yzdmOu1YEpAYlKHVLxci4Ln0ERQTq9trwKJfkasbKmeJJ5hAHSz8jY4gMFvN6BP5HpEiWnzaDCH6Yn6B3szBbm1cPukJm4UrYd2sZKpvgd45fPuITscVr4TsLjTnRDAMAPb3zL5XX7FRIeg4grToSNv571NU22oQESi0GeYF3LAfHwiCzhnIra1jSNWGERT5pV6hmguVug0awySnfZ3tQTZgjIggmQYMyG5npbQzjfUG5SQdNJJaW4H5npOwkfBALsBEguZdDUEm0LzKT5hoJRghiKh9a7ACs0uCEwVAObZHMLv5F3s4OAKHPrkEMpQyFwNcGGscErHqJk1CyGtl1BUZZDIzvSURco6pN3r24b3aG6ibg4kqN8Oaf1C4fcdItRK9cFqQRAOqsGbN8pxfGvqfQhlSjlVvR8wi3TCUibGhW7tq4TREUVhZoxAeuVkpl8wbxhSnoRU7Zmngpa2AKecgYaFpixtMubsyWdUbTn68PUIvOuMNg5DgwlGELssMmFnC7a532c30',
+        'Bearer uVjFKSWFa7z70hJV5cQdVgYFKzQZFknuYjgNsqJV1Pi8dXlhtQ6aPkbq57DTymOWtRNc7u0FRD8ygR5eLdNvN5CKLZ8Bnivms3HPeaScn5eEETpRDD4SjvSfjAcy74ZPAVKv7AwQr9CGpb1iHMoWzVX5eYFhE5fDlMt8jTTKZom2ffj9yb0pip7eCXh5yOdbmpb2x3dPuWA4zjCCLa9QuCkacnJMtsKT7BcdGDH9k2KnL0Jpp2p63nPMtiO5X7TEn0aMUS85Z2uL2Qt607ya0qPvodJ8IeCrXEYacGF2rv6yz2jBxSrZyYp99Z5RKU7oEhoO3homDHgODJBu1OHR9XSjZ0h9eQIWDnRJUFtqtwVtVptdd1h2FEqfTBzYSA0dtecFmPP0bfTBYmmov3OtcHSaE02vIFxyjSA9deBlKyBa9NXFNCRG5PbGSRVOwUrXdUljjqJlY4fVARrgG8wqm5o5ZTxueSKCV4Lvp5t8hnYPqUqohAmzxK1PybFvfo8JkxhBgWt6UfftwZ3kAitrFOToHqZZTvDNn0m2HmCsNPmJMykrMU1UplyNsXcVWYMyKjPyITI2tD0i10rvEmSHsuRsbURifSBCB8fcLlcWZBYDfKGvZa2IbYNZY6m2SiQGOBWHjGu08AVnsuCdLYfGgm104wizKEZATvKMSG4Zxh0tNf7o0kyVDvOOQfbI137f731a',
   };
   getrequest(String url) async {
     try {
       var respos = await http.get(Uri.parse(url), headers: myheaders3);
-      print('============');
-      print(respos.body);
-      print(respos.statusCode);
+      print('=======${respos.statusCode}=====');
+      if (respos.statusCode == 401) {
+        sharedPreferences.remove("id");
+        Get.offAll(() => LoginScreen());
+        return;
+      }
+      // print(respos.body);
+      // print(respos.statusCode);
       print('============');
       if (respos.statusCode == 200 || respos.statusCode == 201) {
         dynamic body = jsonDecode(respos.body);
-        print(' body :  $body');
+        // print(' body :  $body');
         return body;
       } else {
-        print('erorr');
+        sharedPreferences.remove("id");
+        Get.offAll(() => LoginScreen());
+        return;
       }
     } catch (e) {
-      // ignore: avoid_print
-      print('$e');
+      sharedPreferences.remove("id");
+      Get.offAll(() => LoginScreen());
+      return;
     }
   }
 

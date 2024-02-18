@@ -9,10 +9,10 @@ List<IconTitleVertical> IconTitleVerticals = [
     image: 'assets/images/note.png',
     title: 'Orders',
   ),
-  IconTitleVertical(
-    image: 'assets/images/clock.png',
-    title: 'Reservation',
-  ),
+  // IconTitleVertical(
+  //   image: 'assets/images/clock.png',
+  //   title: 'Reservation',
+  // ),
   IconTitleVertical(
     image: 'assets/images/bill.png',
     title: 'Bills',
