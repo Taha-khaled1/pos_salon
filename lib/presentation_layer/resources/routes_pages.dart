@@ -1,9 +1,9 @@
 import 'package:pos_animal/main.dart';
 import 'package:pos_animal/presentation_layer/resources/routes_manager.dart';
 import 'package:get/get.dart';
-import 'package:pos_animal/presentation_layer/screen/home_screen/home_screen.dart';
+import 'package:pos_animal/presentation_layer/screens/home_screen/home_screen.dart';
 
-import '../screen/login/login.dart';
+import '../screens/login/login.dart';
 
 List<GetPage<dynamic>>? getPage = [
   // GetPage(

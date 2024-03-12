@@ -14,6 +14,7 @@ class CustomButton extends StatelessWidget {
     this.colorborder,
     this.sideIs,
     this.fontSize,
+    this.fontWeight
   });
 
   final Color backgroundColor;
@@ -25,6 +26,7 @@ class CustomButton extends StatelessWidget {
   final Color? colorborder;
   final BorderSide? sideIs;
   final double? fontSize;
+  final FontWeight? fontWeight;
   @override
   Widget build(BuildContext context) {
     return InfoWidget(
@@ -37,6 +39,7 @@ class CustomButton extends StatelessWidget {
           // color: ColorManager.background,
           child: ElevatedButton(
             style: ButtonStyle(
+              elevation: MaterialStateProperty.all(0),
               backgroundColor: MaterialStateProperty.all(backgroundColor),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
@@ -52,6 +55,7 @@ class CustomButton extends StatelessWidget {
                 fontFamily: FontConstants.fontFamily,
                 fontSize: fontSize ?? FontSize.s16,
                 color: colorText ?? ColorManager.white,
+                fontWeight:fontWeight?? FontWeight.w700
               ),
             ),
           ),

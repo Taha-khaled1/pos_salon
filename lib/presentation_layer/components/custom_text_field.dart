@@ -1,5 +1,5 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pos_animal/presentation_layer/src/style_packge.dart';
-import 'package:pos_animal/presentation_layer/utils/helper_view.dart';
 import 'package:pos_animal/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 
 class CustomTextfield extends StatelessWidget {
@@ -13,12 +13,19 @@ class CustomTextfield extends StatelessWidget {
   final TextDirection? textDirection;
   final String? initialValue;
   final BorderStyle? borderStyle;
-  // final int? maxLines;
+  final int? maxLines;
   final Color? fillColor;
   final bool? enableBorder;
   final bool readOnly;
   final VoidCallback? onTap;
   final void Function(String)? onChanged;
+  final double? height;
+  final double? verticalPadding;
+  final double?horizontalPadding;
+  final double? borderRadius;
+  final Widget? suffixIcon;
+  final double? fontSize;
+  final bool? enabled;
 
   const CustomTextfield({
     Key? key,
@@ -32,12 +39,19 @@ class CustomTextfield extends StatelessWidget {
     this.textDirection,
     this.initialValue,
     this.borderStyle,
-    // this.maxLines,
+    this.maxLines,
     this.fillColor,
     this.enableBorder = true,
     this.readOnly = false,
     this.onTap,
     this.onChanged,
+     this.height,
+    this.verticalPadding,
+    this.horizontalPadding,
+    this.borderRadius,
+    this.suffixIcon,
+    this.fontSize,
+    this.enabled
   }) : super(key: key);
 
   @override
@@ -45,15 +59,20 @@ class CustomTextfield extends StatelessWidget {
     return InfoWidget(
       builder: (context, deviceInfo) {
         return Container(
-          width: HelperView.widthForTextField(deviceInfo),
-          color: ColorManager.white,
+          width: width,
+          height: height??60.h,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(borderRadius??30),
+            color: ColorManager.white,
+          ),
           child: TextFormField(
-            style: const TextStyle(color: ColorManager.black),
+            enabled:enabled??true ,
+            style:  TextStyle(color: ColorManager.black,fontSize: fontSize??16.sp),
             autocorrect: false,
             enableSuggestions: false,
             onTap: onTap,
             readOnly: readOnly,
-            // maxLines: maxLines,
+            maxLines: maxLines??1,
             initialValue: initialValue,
             textDirection: textDirection,
             obscureText: obscureText == null ? false : obscureText!,
@@ -61,24 +80,26 @@ class CustomTextfield extends StatelessWidget {
             validator: validator,
             onChanged: onChanged,
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical:verticalPadding?? 5.h,horizontal: horizontalPadding??0),
               prefixIcon: icon != null
                   ? IconButton(
                       onPressed: onIconTap,
-                      icon: Icon(icon),
+                      icon: Icon(icon,color: Colors.black87,size:25.r,),
                     )
                   : null,
+              suffixIcon:suffixIcon??null ,
 
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(borderRadius??30),
                 borderSide: BorderSide(
-                  width: 1.2,
+                  width: 1,
                   style: borderStyle ?? BorderStyle.solid,
                   color: ColorManager.grey2,
                 ),
               ),
 
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(borderRadius??30),
                 borderSide: const BorderSide(
                   width: 1.2,
                   color: ColorManager.grey2,
@@ -89,9 +110,9 @@ class CustomTextfield extends StatelessWidget {
               filled: true,
               fillColor: Colors.white10,
               hintText: titel,
-              hintStyle: MangeStyles().getBoldStyle(
-                color: ColorManager.black,
-                fontSize: FontSize.s16,
+              hintStyle: TextStyle(
+                color: Colors.grey.shade500,
+                fontSize: fontSize?? 18.sp,
               ),
             ),
           ),

@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:path/path.dart';
 import 'package:pos_animal/main.dart';
-import 'package:pos_animal/presentation_layer/screen/login/login.dart';
+import 'package:pos_animal/presentation_layer/screens/login/login.dart';
 import 'package:pos_animal/presentation_layer/src/get_packge.dart';
 
 class Curd {
