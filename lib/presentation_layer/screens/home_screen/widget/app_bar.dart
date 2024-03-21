@@ -6,8 +6,10 @@ import 'package:pos_animal/presentation_layer/screens/home_screen/models/IconTit
 import '../../../src/account_url.dart';
 
 class AppBarWidget extends StatefulWidget {
+  final PageController pageController;
   const AppBarWidget({
     super.key,
+    required this.pageController
   });
 
   @override
@@ -106,6 +108,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
             text: "Add Client",
             colorText: ColorManager.kPrimary,
             press: () {
+              widget.pageController.jumpToPage(7);
             },
           ),
           SizedBox(

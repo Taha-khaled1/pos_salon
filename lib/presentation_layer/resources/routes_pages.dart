@@ -3,7 +3,8 @@ import 'package:pos_animal/presentation_layer/resources/routes_manager.dart';
 import 'package:get/get.dart';
 import 'package:pos_animal/presentation_layer/screens/home_screen/home_screen.dart';
 
-import '../screens/login/login.dart';
+import '../screens/auth/auth_screen.dart';
+
 
 List<GetPage<dynamic>>? getPage = [
   // GetPage(
@@ -18,6 +19,6 @@ List<GetPage<dynamic>>? getPage = [
   GetPage(
     name: Routes.startpage,
     page: () =>
-        sharedPreferences.getInt("id") == null ? LoginScreen() : HomeScreen(),
+        sharedPreferences.getInt("id") == null ? AuthScreen() : HomeScreen(),
   ),
 ];

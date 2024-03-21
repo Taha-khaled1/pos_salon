@@ -2,9 +2,10 @@ import 'package:http/http.dart' as http;
 import 'package:pos_animal/application_layer/utils/valid.dart';
 import 'package:pos_animal/data_layer/database/database.dart';
 import 'package:pos_animal/presentation_layer/components/custom_text_field.dart';
-import 'package:pos_animal/presentation_layer/screens/login/login.dart';
 import 'package:pos_animal/presentation_layer/src/account_url.dart';
 import 'package:quickalert/models/quickalert_type.dart';
+
+import '../../auth/auth_screen.dart';
 
 changePasswordhowBottomSheet(BuildContext context) {
   String? a, x, y, z;
@@ -122,7 +123,7 @@ changePasswordhowBottomSheet(BuildContext context) {
                           );
                           if (response.statusCode == 401) {
                             sharedPreferences.remove("id");
-                            Get.offAll(() => LoginScreen());
+                            Get.offAll(() => AuthScreen());
                             return;
                           }
                           if (response.statusCode == 200) {
