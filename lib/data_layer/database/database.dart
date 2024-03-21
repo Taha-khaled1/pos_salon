@@ -6,8 +6,9 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:path/path.dart';
 import 'package:pos_animal/main.dart';
-import 'package:pos_animal/presentation_layer/screens/login/login.dart';
 import 'package:pos_animal/presentation_layer/src/get_packge.dart';
+
+import '../../presentation_layer/screens/auth/auth_screen.dart';
 
 class Curd {
   Map<String, String> myheaders = {
@@ -30,7 +31,7 @@ class Curd {
       print('=======${respos.statusCode}=====');
       if (respos.statusCode == 401) {
         sharedPreferences.remove("id");
-        Get.offAll(() => LoginScreen());
+        Get.offAll(() => AuthScreen());
         return;
       }
       // print(respos.body);
@@ -42,12 +43,12 @@ class Curd {
         return body;
       } else {
         sharedPreferences.remove("id");
-        Get.offAll(() => LoginScreen());
+        Get.offAll(() => AuthScreen());
         return;
       }
     } catch (e) {
       sharedPreferences.remove("id");
-      Get.offAll(() => LoginScreen());
+      Get.offAll(() => AuthScreen());
       return;
     }
   }

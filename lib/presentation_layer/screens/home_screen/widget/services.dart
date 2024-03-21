@@ -2,10 +2,11 @@ import 'package:pos_animal/application_layer/utils/valid.dart';
 import 'package:pos_animal/data_layer/database/sqlflite.dart';
 import 'package:pos_animal/presentation_layer/components/custom_text_field.dart';
 import 'package:pos_animal/presentation_layer/screens/home_screen/controller/home_controller.dart';
-import 'package:pos_animal/presentation_layer/screens/login/login.dart';
 import 'package:pos_animal/presentation_layer/screens/store_order/store_order.dart';
 import 'package:pos_animal/presentation_layer/src/account_url.dart';
 import 'package:quickalert/models/quickalert_type.dart';
+
+import '../../auth/auth_screen.dart';
 
 class ServiceWidget extends StatefulWidget {
   const ServiceWidget({super.key});
@@ -29,7 +30,7 @@ class _ServiceWidgetState extends State<ServiceWidget> {
       // print(timeOfDay!.periodOffset);
       // print(timeOfDay!.hourOfPeriod);
       // print(timeOfDay!.period.name);
-      String formattedTime = formatTimeOfDay(timeOfDay!);
+      String formattedTime = formatTimeOfDay(timeOfDay);
       x = formattedTime;
     }
     setState(() {});

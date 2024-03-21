@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: Column(
                 children: [
-                  AppBarWidget(),
+                  AppBarWidget(pageController: controller,),
                   // page view
                   Expanded(
                     child: PageView(
