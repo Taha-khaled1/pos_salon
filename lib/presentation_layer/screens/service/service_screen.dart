@@ -3,11 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pos_animal/presentation_layer/components/custom_text_field.dart';
-import 'package:pos_animal/presentation_layer/components/dash_line.dart';
 import 'package:pos_animal/presentation_layer/resources/color_manager.dart';
 import 'package:pos_animal/presentation_layer/screens/service/widgets/right_side_widget.dart';
+import 'package:pos_animal/presentation_layer/screens/service/widgets/services_grid_view_widget.dart';
 
-import '../../components/custom_butten.dart';
 
 class ServiceScreen extends StatefulWidget {
   const ServiceScreen({super.key, required this.controller});
@@ -114,7 +113,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
                       ),
                     ),
                   ],
-                )
+                ),
+                ServicesWidget()
               ],
             ),
           ),
