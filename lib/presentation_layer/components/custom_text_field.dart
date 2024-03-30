@@ -21,38 +21,38 @@ class CustomTextfield extends StatelessWidget {
   final void Function(String)? onChanged;
   final double? height;
   final double? verticalPadding;
-  final double?horizontalPadding;
+  final double? horizontalPadding;
   final double? borderRadius;
   final Widget? suffixIcon;
   final double? fontSize;
   final bool? enabled;
 
-  const CustomTextfield({
-    Key? key,
-    this.icon,
-    this.onIconTap,
-    this.obscureText,
-    required this.validator,
-    required this.onSaved,
-    required this.titel,
-    required this.width,
-    this.textDirection,
-    this.initialValue,
-    this.borderStyle,
-    this.maxLines,
-    this.fillColor,
-    this.enableBorder = true,
-    this.readOnly = false,
-    this.onTap,
-    this.onChanged,
-     this.height,
-    this.verticalPadding,
-    this.horizontalPadding,
-    this.borderRadius,
-    this.suffixIcon,
-    this.fontSize,
-    this.enabled
-  }) : super(key: key);
+  const CustomTextfield(
+      {Key? key,
+      this.icon,
+      this.onIconTap,
+      this.obscureText,
+      required this.validator,
+      required this.onSaved,
+      required this.titel,
+      required this.width,
+      this.textDirection,
+      this.initialValue,
+      this.borderStyle,
+      this.maxLines,
+      this.fillColor,
+      this.enableBorder = true,
+      this.readOnly = false,
+      this.onTap,
+      this.onChanged,
+      this.height,
+      this.verticalPadding,
+      this.horizontalPadding,
+      this.borderRadius,
+      this.suffixIcon,
+      this.fontSize,
+      this.enabled})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -60,19 +60,20 @@ class CustomTextfield extends StatelessWidget {
       builder: (context, deviceInfo) {
         return Container(
           width: width,
-          height: height??60.h,
+          height: height ?? 60.h,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(borderRadius??30),
+            borderRadius: BorderRadius.circular(borderRadius ?? 30),
             color: ColorManager.white,
           ),
           child: TextFormField(
-            enabled:enabled??true ,
-            style:  TextStyle(color: ColorManager.black,fontSize: fontSize??16.sp),
+            enabled: enabled ?? true,
+            style: TextStyle(
+                color: ColorManager.black, fontSize: fontSize ?? 16.sp),
             autocorrect: false,
             enableSuggestions: false,
             onTap: onTap,
             readOnly: readOnly,
-            maxLines: maxLines??1,
+            maxLines: maxLines ?? 1,
             initialValue: initialValue,
             textDirection: textDirection,
             obscureText: obscureText == null ? false : obscureText!,
@@ -80,17 +81,23 @@ class CustomTextfield extends StatelessWidget {
             validator: validator,
             onChanged: onChanged,
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical:verticalPadding?? 5.h,horizontal: horizontalPadding??0),
+              contentPadding: EdgeInsets.symmetric(
+                  vertical: verticalPadding ?? 5.h,
+                  horizontal: horizontalPadding ?? 0),
               prefixIcon: icon != null
                   ? IconButton(
                       onPressed: onIconTap,
-                      icon: Icon(icon,color: Colors.black87,size:25.r,),
+                      icon: Icon(
+                        icon,
+                        color: Colors.black87,
+                        size: 25.r,
+                      ),
                     )
                   : null,
-              suffixIcon:suffixIcon??null ,
+              suffixIcon: suffixIcon ?? null,
 
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(borderRadius??30),
+                borderRadius: BorderRadius.circular(borderRadius ?? 30),
                 borderSide: BorderSide(
                   width: 1,
                   style: borderStyle ?? BorderStyle.solid,
@@ -99,7 +106,7 @@ class CustomTextfield extends StatelessWidget {
               ),
 
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(borderRadius??30),
+                borderRadius: BorderRadius.circular(borderRadius ?? 30),
                 borderSide: const BorderSide(
                   width: 1.2,
                   color: ColorManager.grey2,
@@ -112,7 +119,7 @@ class CustomTextfield extends StatelessWidget {
               hintText: titel,
               hintStyle: TextStyle(
                 color: Colors.grey.shade500,
-                fontSize: fontSize?? 18.sp,
+                fontSize: fontSize ?? 18.sp,
               ),
             ),
           ),

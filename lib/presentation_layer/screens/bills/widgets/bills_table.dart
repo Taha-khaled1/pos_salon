@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:pos_animal/presentation_layer/components/custom_elevated_button.dart';
+import 'package:pos_animal/presentation_layer/screens/bills/bill_controller.dart';
 
 import '../../../resources/color_manager.dart';
 import '../../../resources/styles_manager.dart';
 
 class BillsTable extends StatefulWidget {
-
   late PageController controller;
-   BillsTable({super.key,required this.controller});
+  BillsTable({super.key, required this.controller});
 
   @override
   State<BillsTable> createState() => _BillsTableState();
@@ -16,7 +17,7 @@ class BillsTable extends StatefulWidget {
 
 class _BillsTableState extends State<BillsTable> {
   int selectedPeriodIndex = 0;
-
+  BillController billController = Get.find();
   void selectPeriod(int index) {
     setState(() {
       selectedPeriodIndex = index;
@@ -96,31 +97,36 @@ class _BillsTableState extends State<BillsTable> {
                     ),
                     CustomElevatedButton(
                       height: 40.h,
-                        width: 142.w,
-                        backgroundColor: Colors.white,
-                        borderColor: ColorManager.kPrimary,
-
-                        icon: Icons.local_printshop_outlined, text: 'Re-print', onPressed: () {},
+                      width: 142.w,
+                      backgroundColor: Colors.white,
+                      borderColor: ColorManager.kPrimary,
+                      icon: Icons.local_printshop_outlined,
+                      text: 'Re-print',
+                      onPressed: () {},
                       textSize: 16.sp,
                       textColor: ColorManager.kPrimary,
                       iconSize: 18.h,
                       iconColor: ColorManager.kPrimary,
                       borderRadius: 30,
-
                     ),
-                    SizedBox(width: 10.w,),
+                    SizedBox(
+                      width: 10.w,
+                    ),
                     CustomElevatedButton(
                       height: 40.h,
                       width: 142.w,
                       backgroundColor: ColorManager.kPrimary,
                       borderColor: ColorManager.kPrimary,
-                      text: 'Download', onPressed: () {},
+                      text: 'Download',
+                      onPressed: () {},
                       textSize: 16.sp,
                       textColor: Colors.white,
                       borderRadius: 30,
-                      iconWidget: Image.asset('assets/icons/xl_file.png',height: 18.h,),
+                      iconWidget: Image.asset(
+                        'assets/icons/xl_file.png',
+                        height: 18.h,
+                      ),
                       iconSize: 18.h,
-
                     )
                   ],
                 )
@@ -268,31 +274,43 @@ class _BillsTableState extends State<BillsTable> {
                 ),
               ),
               // visible icon data column
-              DataColumn(label: SizedBox(width: 40.w,))
+              DataColumn(
+                  label: SizedBox(
+                width: 40.w,
+              ))
             ],
             rows: [
-              for (int i = 0; i < 10; i++)
+              for (int i = 0; i < billController.len; i++)
                 DataRow(
                   cells: [
                     DataCell(Text(
-                      '01005',
+                      billController.billModel?.data?[i].id.toString() ?? '',
                       style: TextStyle(fontSize: 16.sp),
                     )),
                     DataCell(Text(
-                      '17 May 2022, 10:00 PM',
+                      billController.billModel?.data?[i].order?.date
+                              .toString() ??
+                          '', // '17 May 2022, 10:00 PM',
                       style: TextStyle(fontSize: 16.sp),
                     )),
                     DataCell(Text(
-                      'Hair cut',
+                      billController.billModel?.data?[i].order?.services?[0]
+                              .service?.title
+                              .toString() ??
+                          '',
                       style: TextStyle(fontSize: 16.sp),
                     )),
                     DataCell(Text(
-                      'Masud Rana',
+                      billController.billModel?.data?[i].order?.customer?.name
+                              .toString() ??
+                          '',
                       style: TextStyle(fontSize: 16.sp),
                     )),
                     DataCell(
                       Text(
-                        '3',
+                        billController.billModel?.data?[i].order?.customer?.id
+                                .toString() ??
+                            '',
                         style: TextStyle(
                           fontSize: 16.sp,
                         ),
@@ -306,18 +324,27 @@ class _BillsTableState extends State<BillsTable> {
                           color: Color(0xffFFF5DC),
                         ),
                         child: Text(
-                          'pending',
+                          billController
+                                  .billModel?.data?[i].order?.paymentStatus
+                                  .toString() ??
+                              '',
                           style: TextStyle(color: Color(0xffE2B102)),
                         ),
                       ),
                     ),
                     DataCell(Text(
-                      '\$ 250',
+                      '\$ ${billController.billModel?.data?[i].order?.totalCost.toString()}',
                       style: TextStyle(fontSize: 16.sp),
                     )),
-                    DataCell(InkWell(onTap: (){
-                      widget.controller.jumpToPage(6);
-                    },child: Icon(Icons.visibility,color: Colors.grey,size: 25.h,))),
+                    DataCell(InkWell(
+                        onTap: () {
+                          widget.controller.jumpToPage(6);
+                        },
+                        child: Icon(
+                          Icons.visibility,
+                          color: Colors.grey,
+                          size: 25.h,
+                        ))),
                   ],
                 ),
             ],

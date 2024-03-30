@@ -60,8 +60,9 @@ dependencies:
   data_table_2: ^2.4.2
   flutter_screenutil: ^5.9.0
   syncfusion_flutter_charts: any
-
-
+  fluttertoast: ^8.2.2
+  firebase_messaging: ^14.6.3
+  firebase_core: ^2.4.1
 
 
 dev_dependencies:

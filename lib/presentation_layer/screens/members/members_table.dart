@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:pos_animal/presentation_layer/screens/orders/order_controller.dart';
+import 'package:pos_animal/presentation_layer/resources/styles_manager.dart';
 
-import '../../../resources/color_manager.dart';
-import '../../../resources/font_manager.dart';
-import '../../../resources/styles_manager.dart';
+import '../../components/custom_text_field.dart';
+import '../../resources/color_manager.dart';
+import 'memper_controller.dart';
 
-class OrdersTable extends StatefulWidget {
-  const OrdersTable({super.key});
+// ignore: must_be_immutable
+class MembersTable extends StatefulWidget {
+  MembersTable({super.key});
 
   @override
-  State<OrdersTable> createState() => _OrdersTableState();
+  State<MembersTable> createState() => _MembersTableState();
 }
 
-class _OrdersTableState extends State<OrdersTable> {
+class _MembersTableState extends State<MembersTable> {
   int selectedPeriodIndex = 0;
-  OrderController orderController = Get.find();
+  CustomerController customerController = Get.find();
   void selectPeriod(int index) {
     setState(() {
       selectedPeriodIndex = index;
@@ -38,7 +39,7 @@ class _OrdersTableState extends State<OrdersTable> {
             child: Row(
               children: [
                 Text(
-                  "Order List",
+                  "Members List",
                   style:
                       TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w700),
                 ),
@@ -114,7 +115,7 @@ class _OrdersTableState extends State<OrdersTable> {
                 label: Row(
                   children: [
                     Text(
-                      'Order ID',
+                      'Name',
                       style: MangeStyles().getBoldStyle(
                         color: ColorManager.black,
                         fontSize: 18.h,
@@ -134,7 +135,7 @@ class _OrdersTableState extends State<OrdersTable> {
                 label: Row(
                   children: [
                     Text(
-                      'Data/Time',
+                      'Email',
                       style: MangeStyles().getBoldStyle(
                         color: ColorManager.black,
                         fontSize: 18.h,
@@ -152,7 +153,7 @@ class _OrdersTableState extends State<OrdersTable> {
               ),
               DataColumn(
                 label: Text(
-                  'Service',
+                  'Phone Number',
                   style: MangeStyles().getBoldStyle(
                     color: ColorManager.black,
                     fontSize: 18.h,
@@ -163,7 +164,7 @@ class _OrdersTableState extends State<OrdersTable> {
                 label: Row(
                   children: [
                     Text(
-                      'Employee',
+                      'Country',
                       style: MangeStyles().getBoldStyle(
                         color: ColorManager.black,
                         fontSize: 18.h,
@@ -181,65 +182,39 @@ class _OrdersTableState extends State<OrdersTable> {
               ),
               DataColumn(
                 label: Text(
-                  'Status',
+                  'City',
                   style: MangeStyles().getBoldStyle(
                     color: ColorManager.black,
                     fontSize: 18.h,
                   ),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Payment',
-                  style: MangeStyles().getBoldStyle(
-                    color: ColorManager.black,
-                    fontSize: 18.h,
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Row(
-                  children: [
-                    Text(
-                      'Amount',
-                      style: MangeStyles().getBoldStyle(
-                        color: ColorManager.black,
-                        fontSize: 18.h,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 5.w,
-                    ),
-                    Image.asset(
-                      'assets/icons/mobile_data.png',
-                      height: 15.h,
-                    )
-                  ],
                 ),
               ),
             ],
             rows: [
-              for (int i = 0; i < orderController.len; i++)
+              for (int i = 0; i < customerController.len; i++)
                 DataRow(
                   cells: [
                     DataCell(Text(
-                      orderController.orderModel?.data?[i].id.toString() ?? '',
-                      style: TextStyle(fontSize: 16.sp),
-                    )),
-                    DataCell(Text(
-                      orderController.orderModel?.data?[i].date.toString() ??
-                          '', // '17 May 2022, 10:00 PM',
-                      style: TextStyle(fontSize: 16.sp),
-                    )),
-                    DataCell(Text(
-                      orderController
-                              .orderModel?.data?[i].services?[0].service?.title
+                      customerController.customerModel?.data?[i].name
                               .toString() ??
                           '',
                       style: TextStyle(fontSize: 16.sp),
                     )),
                     DataCell(Text(
-                      orderController.orderModel?.data?[i].customer?.name
+                      customerController.customerModel?.data?[i].email
+                              .toString() ??
+                          '',
+                      style: TextStyle(fontSize: 16.sp),
+                    )),
+                    DataCell(Text(
+                      customerController.customerModel?.data?[i].phone
+                              .toString() ??
+                          '',
+                      style: TextStyle(fontSize: 16.sp),
+                    )),
+                    DataCell(Text(
+                      customerController
+                              .customerModel?.data?[i].location?.address
                               .toString() ??
                           '',
                       style: TextStyle(fontSize: 16.sp),
@@ -252,32 +227,14 @@ class _OrdersTableState extends State<OrdersTable> {
                           color: Color(0xffE1FFDC),
                         ),
                         child: Text(
-                          orderController.orderModel?.data?[i].orderStatus
+                          customerController
+                                  .customerModel?.data?[i].emirate?.title
                                   .toString() ??
                               '',
                           style: TextStyle(color: Color(0xff07A104)),
                         ),
                       ),
                     ),
-                    DataCell(
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Color(0xffFFF5DC),
-                        ),
-                        child: Text(
-                          orderController.orderModel?.data?[i].paymentStatus
-                                  .toString() ??
-                              '',
-                          style: TextStyle(color: Color(0xffE2B102)),
-                        ),
-                      ),
-                    ),
-                    DataCell(Text(
-                      '\$ 250',
-                      style: TextStyle(fontSize: 16.sp),
-                    )),
                   ],
                 ),
               // Add more DataRow widgets here for additional rows

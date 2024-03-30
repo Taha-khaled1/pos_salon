@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:pos_animal/presentation_layer/screens/home_screen/controller/home_controller.dart';
 import 'package:pos_animal/presentation_layer/screens/service/widgets/service_details_dialog.dart';
 
 import '../../../resources/color_manager.dart';
@@ -12,17 +14,19 @@ class ServicesWidget extends StatefulWidget {
 }
 
 class _ServicesWidgetState extends State<ServicesWidget> {
+  HomeController homeController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: GridView.builder(
+        itemCount: homeController.serviceModel?.data?.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           childAspectRatio: 0.9,
         ),
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
-            onTap: (){
+            onTap: () {
               showDetailsDialog(context);
             },
             child: Container(
@@ -39,13 +43,15 @@ class _ServicesWidgetState extends State<ServicesWidget> {
                           borderRadius: BorderRadius.circular(15),
                           image: DecorationImage(
                             image: NetworkImage(
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTEnb4bQKUe6UZLmUIKn1u5BqsTmyTA0S8TA&usqp=CAU",
+                              homeController.serviceModel?.data?[index].image ??
+                                  "",
                             ),
                           ))),
-                  Text("Hair cut",
+                  Text(homeController.serviceModel?.data?[index].title ?? "",
                       style: TextStyle(
                           fontSize: 22.sp, fontWeight: FontWeight.bold)),
-                  Text("\$10.00",
+                  Text(
+                      "\$ ${homeController.serviceModel?.data?[index].price ?? ""}",
                       style: TextStyle(
                           fontSize: 22.sp,
                           fontWeight: FontWeight.bold,

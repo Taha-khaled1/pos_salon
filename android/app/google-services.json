@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "589062770006",
+    "project_id": "salon-app-df8bd",
+    "storage_bucket": "salon-app-df8bd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589062770006:android:59d4ec7eaf11bae9ed5af7",
+        "android_client_info": {
+          "package_name": "com.nano.salon_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "589062770006-d91m30gk5vujq2caeadm5mr21pbnkmfo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nano.salon_app",
+            "certificate_hash": "917855d086c4eda8722607c910bef50a76ad0c72"
+          }
+        },
+        {
+          "client_id": "589062770006-2mm5q35j1int2c63sjcdshcfcuu6994a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMvawYF1b8bVwAFPtcV39SIPsbRQ6j05w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "589062770006-2mm5q35j1int2c63sjcdshcfcuu6994a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

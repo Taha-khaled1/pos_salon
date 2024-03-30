@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:pos_animal/data_layer/database/database.dart';
+import 'package:pos_animal/data_layer/models/order.dart';
+import 'package:pos_animal/presentation_layer/screens/orders/order_controller.dart';
 import 'package:pos_animal/presentation_layer/screens/orders/widgets/orders_table.dart';
 
 import '../../components/custom_text_field.dart';
@@ -25,96 +29,106 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Orders",
-              style: TextStyle(
-                  color: ColorManager.kPrimary,
-                  fontSize: 26.sp,
-                  fontWeight: FontWeight.w700),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              children: [
-                //search field
-                CustomTextfield(
-                    icon: Icons.search,
-                    verticalPadding: 0,
-                    height: 45.h,
-                    validator: (search) {
-                      return null;
-                    },
-                    onSaved: (search) {
-                      return null;
-                    },
-                    titel: "Search service...",
-                    width: 430.w),
-                SizedBox(
-                  width: 20.w,
-                ),
-                // filter widget
-                Expanded(
-                  child: SizedBox(
-                    height: 38.h,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: items.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedIndex = index;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: selectedIndex == index
-                                    ? ColorManager.beige
-                                    : Colors.white,
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(
-                                  width: 1,
-                                  color: ColorManager.grey2,
-                                )),
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 10.w,
+    return GetBuilder<OrderController>(
+        init: OrderController(),
+        builder: (_) {
+          return _.load
+              ? Center(child: CircularProgressIndicator())
+              : Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Orders",
+                          style: TextStyle(
+                              color: ColorManager.kPrimary,
+                              fontSize: 26.sp,
+                              fontWeight: FontWeight.w700),
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        Row(
+                          children: [
+                            //search field
+                            CustomTextfield(
+                                icon: Icons.search,
+                                verticalPadding: 0,
+                                height: 45.h,
+                                validator: (search) {
+                                  return null;
+                                },
+                                onSaved: (search) {
+                                  return null;
+                                },
+                                titel: "Search service...",
+                                width: 430.w),
+                            SizedBox(
+                              width: 20.w,
                             ),
-                            margin: EdgeInsets.symmetric(horizontal: 10.w),
-                            child: Center(
-                              child: Text(
-                                items[index],
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  color: selectedIndex == index
-                                      ? ColorManager.kPrimary
-                                      : Colors.black,
+                            // filter widget
+                            Expanded(
+                              child: SizedBox(
+                                height: 38.h,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: items.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedIndex = index;
+                                        });
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: selectedIndex == index
+                                                ? ColorManager.beige
+                                                : Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            border: Border.all(
+                                              width: 1,
+                                              color: ColorManager.grey2,
+                                            )),
+                                        alignment: Alignment.center,
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 10.w,
+                                        ),
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 10.w),
+                                        child: Center(
+                                          child: Text(
+                                            items[index],
+                                            style: TextStyle(
+                                              fontSize: 16.sp,
+                                              color: selectedIndex == index
+                                                  ? ColorManager.kPrimary
+                                                  : Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      },
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        // order table
+                        Align(alignment: Alignment.center, child: OrdersTable())
+                      ],
                     ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20.h,),
-            // order table
-            Align(
-              alignment: Alignment.center,
-                child: OrdersTable())
-          ],
-        ),
-      ),
-    );
+                );
+        });
   }
 }
