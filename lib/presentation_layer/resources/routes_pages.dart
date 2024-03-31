@@ -5,7 +5,6 @@ import 'package:pos_animal/presentation_layer/screens/home_screen/home_screen.da
 
 import '../screens/auth/auth_screen.dart';
 
-
 List<GetPage<dynamic>>? getPage = [
   // GetPage(
   //     name: Routes.startpage,
@@ -18,7 +17,8 @@ List<GetPage<dynamic>>? getPage = [
   //     ]),
   GetPage(
     name: Routes.startpage,
-    page: () =>
-        sharedPreferences.getInt("id") == null ? AuthScreen() : HomeScreen(),
+    page: () => sharedPreferences.getString("token") == null
+        ? AuthScreen()
+        : HomeScreen(),
   ),
 ];

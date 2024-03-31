@@ -16,15 +16,15 @@ class EmailVerificationScreen extends StatefulWidget {
 }
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
-  List<String> code = ['', '', '', ''];
+  List<String> code = ['', '', '', '', '', ''];
   late List<FocusNode> focusNodes;
   late List<TextEditingController> controllers;
 
   @override
   void initState() {
     super.initState();
-    focusNodes = List.generate(5, (index) => FocusNode());
-    controllers = List.generate(5, (index) => TextEditingController());
+    focusNodes = List.generate(6, (index) => FocusNode());
+    controllers = List.generate(6, (index) => TextEditingController());
   }
 
   @override
@@ -44,16 +44,19 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     } else {
       code[index] = value;
       // When a digit is entered, move focus to the next square
-      if (index < 4) {
+      if (index < 5) {
         FocusScope.of(context).requestFocus(focusNodes[index + 1]);
       }
     }
     setState(() {});
   }
 
+  final formKey = GlobalKey<FormState>();
   void onVerifyPressed() {
     String enteredCode = code.join('');
     print('Entered code: $enteredCode');
+    sharedPreferences.setString("otp", enteredCode);
+    widget.pageController.jumpToPage(3);
   }
 
   @override
@@ -66,135 +69,136 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         bottom: 30.h,
       ),
       child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                InkWell(
-                    onTap: () {
-                      widget.pageController.jumpToPage(1);
-                    },
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: ColorManager.kPrimary,
-                    )),
-                Spacer(),
-                Text(
-                  'email verification',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: ColorManager.kPrimary,
-                    fontSize: 22.sp,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Spacer()
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Column(
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
                 children: [
-                  SizedBox(
-                    height: 100.h,
-                  ),
-                  Text(
-                    'Copy the verification code in your email application to verify this account recovery.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: ColorManager.black,
-                      fontSize: 20.sp,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                      // height: 0.09,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50.h,
-                  ),
-                  // verification code boxes
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(
-                      5,
-                          (index) => SizedBox(
-                        width: 55.w,
-                        height: 55.h,
-                        child: TextField(
-                          controller: controllers[index],
-                          focusNode: focusNodes[index],
-                          onChanged: (value) => onCodeChanged(index, value),
-                          keyboardType: TextInputType.number,
-                          textAlign: TextAlign.center,
-                          maxLength: 1,
-                          style: TextStyle(fontSize: 20.sp),
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 5.h
-                            ),
-                            counterText: '',
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-                  // resend code button
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: InkWell(
+                  InkWell(
                       onTap: () {
                         widget.pageController.jumpToPage(1);
                       },
-                      child: Text(
-                        'resend code',
-                        style: TextStyle(
-                          color: Color(0xff78CFCF),
-                          fontSize: 18.sp,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                          decoration: TextDecoration.underline,
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: ColorManager.kPrimary,
+                      )),
+                  Spacer(),
+                  Text(
+                    'phone verification',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: ColorManager.kPrimary,
+                      fontSize: 22.sp,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Spacer()
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 100.h,
+                    ),
+                    Text(
+                      'Copy the verification code in your phone  application to verify this account recovery.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: ColorManager.black,
+                        fontSize: 20.sp,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                        // height: 0.09,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50.h,
+                    ),
+                    // verification code boxes
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: List.generate(
+                        6,
+                        (index) => SizedBox(
+                          width: 55.w,
+                          height: 55.h,
+                          child: TextField(
+                            controller: controllers[index],
+                            focusNode: focusNodes[index],
+                            onChanged: (value) => onCodeChanged(index, value),
+                            keyboardType: TextInputType.number,
+                            textAlign: TextAlign.center,
+                            maxLength: 1,
+                            style: TextStyle(fontSize: 20.sp),
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 5.h),
+                              counterText: '',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                    SizedBox(height: 20.h),
+                    // resend code button
+                    // Align(
+                    //   alignment: Alignment.topLeft,
+                    //   child: InkWell(
+                    //     onTap: () {
+                    //       widget.pageController.jumpToPage(1);
+                    //     },
+                    //     child: Text(
+                    //       'resend code',
+                    //       style: TextStyle(
+                    //         color: Color(0xff78CFCF),
+                    //         fontSize: 18.sp,
+                    //         fontFamily: 'Poppins',
+                    //         fontWeight: FontWeight.w600,
+                    //         decoration: TextDecoration.underline,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
 
-
-                  //space
-                  SizedBox(
-                    height: 50.h,
-                  ),
-                  // submit button
-                  SizedBox(
-                    height: 50.h,
-                    width: 600.w,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: ColorManager.kPrimary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(45.0),
-                            )),
-                        onPressed: () {
-                          widget.pageController.jumpToPage(3);
-                        },
-                        child: Text(
-                          'submit verification',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.sp,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                          ),
-                        )),
-                  ),
-                ],
-              ),
-            )
-          ],
+                    //space
+                    SizedBox(
+                      height: 50.h,
+                    ),
+                    // submit button
+                    SizedBox(
+                      height: 50.h,
+                      width: 600.w,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: ColorManager.kPrimary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(45.0),
+                              )),
+                          onPressed: () {
+                            onVerifyPressed();
+                          },
+                          child: Text(
+                            'submit verification',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.sp,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

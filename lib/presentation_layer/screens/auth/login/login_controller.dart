@@ -76,3 +76,15 @@ saveUser(dynamic data) {
       'profile_image', data['user']['profile_image'] ?? "");
   sharedPreferences.setString('token', data['access_token']);
 }
+
+saveUserReset(dynamic data) {
+  print(data['client']['name']);
+  sharedPreferences.setInt('id', data['client']['id']);
+  sharedPreferences.setString('name', data['client']['name'] ?? "");
+  sharedPreferences.setString('email', data['client']['email']);
+  sharedPreferences.setString('phone', data['client']['phone'] ?? "");
+  sharedPreferences.setString('address', data['client']['address'] ?? "");
+  sharedPreferences.setString(
+      'profile_image', data['client']['profile_image'] ?? "");
+  sharedPreferences.setString('token', data['access_token']);
+}
