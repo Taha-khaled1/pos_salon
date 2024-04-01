@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:pos_animal/main.dart';
 import 'package:pos_animal/presentation_layer/screens/home_screen/controller/home_controller.dart';
 import 'package:pos_animal/presentation_layer/screens/service/widgets/service_details_dialog.dart';
 
@@ -27,6 +28,14 @@ class _ServicesWidgetState extends State<ServicesWidget> {
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
             onTap: () {
+              sharedPreferences.setString("s_name",
+                  homeController.serviceModel?.data?[index].title ?? "");
+              sharedPreferences.setString("s_image",
+                  homeController.serviceModel?.data?[index].image ?? "");
+              sharedPreferences.setInt(
+                  "s_id", homeController.serviceModel?.data?[index].id ?? 0);
+              sharedPreferences.setInt("s_price",
+                  homeController.serviceModel?.data?[index].price ?? 0);
               showDetailsDialog(context);
             },
             child: Container(

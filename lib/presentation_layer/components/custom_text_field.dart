@@ -26,7 +26,7 @@ class CustomTextfield extends StatelessWidget {
   final Widget? suffixIcon;
   final double? fontSize;
   final bool? enabled;
-
+  final TextEditingController? searchController;
   const CustomTextfield(
       {Key? key,
       this.icon,
@@ -51,7 +51,8 @@ class CustomTextfield extends StatelessWidget {
       this.borderRadius,
       this.suffixIcon,
       this.fontSize,
-      this.enabled})
+      this.enabled,
+      this.searchController})
       : super(key: key);
 
   @override
@@ -66,6 +67,7 @@ class CustomTextfield extends StatelessWidget {
             color: ColorManager.white,
           ),
           child: TextFormField(
+            controller: searchController,
             enabled: enabled ?? true,
             style: TextStyle(
                 color: ColorManager.black, fontSize: fontSize ?? 16.sp),

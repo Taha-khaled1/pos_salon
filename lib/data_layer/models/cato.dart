@@ -3,7 +3,7 @@ class CatogeryesModel {
   int? code;
   Null? direct;
   String? message;
-  List<Data>? data;
+  List<DataCatogery>? data;
 
   CatogeryesModel(
       {this.success, this.code, this.direct, this.message, this.data});
@@ -14,9 +14,9 @@ class CatogeryesModel {
     direct = json['direct'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <DataCatogery>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new DataCatogery.fromJson(v));
       });
     }
   }
@@ -34,14 +34,14 @@ class CatogeryesModel {
   }
 }
 
-class Data {
+class DataCatogery {
   int? id;
   String? title;
   int? servicesCount;
 
-  Data({this.id, this.title, this.servicesCount});
+  DataCatogery({this.id, this.title, this.servicesCount});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  DataCatogery.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     servicesCount = json['services_count'];

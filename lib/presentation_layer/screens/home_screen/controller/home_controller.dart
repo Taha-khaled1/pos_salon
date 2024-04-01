@@ -15,6 +15,7 @@ class HomeController extends GetxController {
   bool load = true;
   ServiceModel? serviceModel;
   CatogeryesModel? catogeryesModel;
+  List<Data> search = [];
   getHomeRes() async {
     try {
       statusRequest = StatusRequest.loading;
@@ -27,6 +28,7 @@ class HomeController extends GetxController {
         print("xxxxxxxxx> ${statusRequest}");
         catogeryesModel = await CatogeryesModel.fromJson(responset);
         serviceModel = await ServiceModel.fromJson(response);
+        search = serviceModel!.data!;
       } else {
         statusRequest = StatusRequest.failure;
       }

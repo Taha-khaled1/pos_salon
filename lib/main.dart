@@ -16,8 +16,8 @@ void main() async {
   sqlDb = SqlDb();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   WidgetsFlutterBinding.ensureInitialized();
-  sharedPreferences.setString("token",
-      "SavClV3OmHkvRqoFWn5Bmc1daj0aDCMxzMzJQ9vlJrUBvsCiBP05TS0LcXzlury2kEi4oVYDyWwbqg3rlQ3hU3deoPG5oNKhWkG6yApjn3FhnK3Bgzc7BaHcsg9pkgr9RS3H0zdP5kudpVLGrd4gtvsbBWPneikEAUHxvuw9bRfkFwUcdBtrg9vsZhjShQWmYtlvdoLqinJCVmp9GZANVyTNetcpRI0vcPkz1hQBEK2pVH61FRsrrUbY35W7vM1TYt5dRBgCKu9aJVLks4WmZg0ltaoWZCIwuDiBK4jqj7ZFLJ5jzdjuCis8nSxkIE6yqVVkhRWPAna7ns31atFbsM0SmEfcX62BKVfNeAFtNTNSdzWosCUyXPPCVeuhDbIxMgIVEuaFnPxIrIukXVp4cURgM57JdCMqRvz9Sr4pHNI1AfWKyzB8PXvG57sz3euz73cFBqOmBNBds41Hj2RaR2l8rvn5LUUAmS1RU8I9GDTooaTrWvldg7ZOXhQVspPjpzl1BHwaecXksXif6oM4rZitnlfw67A2eIqmHiM2Ym4LNzgoQfgfGdVU96nNSVsaUrn8CzSlSqX1TwlOAYbrlCGtN9ACQrSiSJjuzVEnNSD8ylsFYy7lhSOKcGyyHZjQQYWc0j5nwlnYe7XOgWOVTtuhZPf3VdVipXIJpYG2kvx9K4mrgtmhYaf6Qpds5b75fc8d");
+  // sharedPreferences.setString("token",
+  //     "SavClV3OmHkvRqoFWn5Bmc1daj0aDCMxzMzJQ9vlJrUBvsCiBP05TS0LcXzlury2kEi4oVYDyWwbqg3rlQ3hU3deoPG5oNKhWkG6yApjn3FhnK3Bgzc7BaHcsg9pkgr9RS3H0zdP5kudpVLGrd4gtvsbBWPneikEAUHxvuw9bRfkFwUcdBtrg9vsZhjShQWmYtlvdoLqinJCVmp9GZANVyTNetcpRI0vcPkz1hQBEK2pVH61FRsrrUbY35W7vM1TYt5dRBgCKu9aJVLks4WmZg0ltaoWZCIwuDiBK4jqj7ZFLJ5jzdjuCis8nSxkIE6yqVVkhRWPAna7ns31atFbsM0SmEfcX62BKVfNeAFtNTNSdzWosCUyXPPCVeuhDbIxMgIVEuaFnPxIrIukXVp4cURgM57JdCMqRvz9Sr4pHNI1AfWKyzB8PXvG57sz3euz73cFBqOmBNBds41Hj2RaR2l8rvn5LUUAmS1RU8I9GDTooaTrWvldg7ZOXhQVspPjpzl1BHwaecXksXif6oM4rZitnlfw67A2eIqmHiM2Ym4LNzgoQfgfGdVU96nNSVsaUrn8CzSlSqX1TwlOAYbrlCGtN9ACQrSiSJjuzVEnNSD8ylsFYy7lhSOKcGyyHZjQQYWc0j5nwlnYe7XOgWOVTtuhZPf3VdVipXIJpYG2kvx9K4mrgtmhYaf6Qpds5b75fc8d");
 
   // sharedPreferences.remove("token");
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -28,9 +28,7 @@ void main() async {
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
   ]).then((_) {
-    runApp(DevicePreview(builder: (context) {
-      return MyApp();
-    }));
+    runApp(MyApp());
   });
   // runApp(
   //   MyApp()

@@ -111,7 +111,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         // 0-5
                         ServiceScreen(controller: controller),
-                        OrdersScreen(), OrdersScreen(),
+                        OrdersScreen(),
+                        OrdersScreen(),
                         // ReservationScreen(),
                         BillsScreen(
                           pageController: controller,

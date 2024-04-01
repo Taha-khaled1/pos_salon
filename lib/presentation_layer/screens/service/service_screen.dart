@@ -19,6 +19,7 @@ class ServiceScreen extends StatefulWidget {
 }
 
 class _ServiceScreenState extends State<ServiceScreen> {
+  HomeController homeController = Get.find();
   int selectedIndex = 0;
 
   List<String> items = [
@@ -29,6 +30,11 @@ class _ServiceScreenState extends State<ServiceScreen> {
     'Routine',
     'Hair cut'
   ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +74,21 @@ class _ServiceScreenState extends State<ServiceScreen> {
                                     },
                                     onSaved: (search) {
                                       return null;
+                                    },
+                                    onChanged: (p0) {
+                                      var x = homeController.search
+                                          .where((element) {
+                                        print("${element.title} c c " +
+                                            p0.toString());
+                                        return element.title
+                                            .toString()
+                                            .contains(p0.toString());
+                                      }).toList();
+
+                                      homeController.serviceModel!.data = x;
+                                      // homeController.len = x.length;
+                                      print("----------------> $x");
+                                      setState(() {});
                                     },
                                     titel: "Search service...",
                                     width: 430.w),

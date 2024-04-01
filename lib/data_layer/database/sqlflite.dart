@@ -46,8 +46,9 @@ class SqlDb {
     CREATE TABLE services (
     "service_id" INTEGER  NOT NULL PRIMARY KEY  AUTOINCREMENT,
     "employee_name" TEXT (255),
-    "time_from" TEXT(255),
-    "time_to" TEXT(255)
+    "image" TEXT (255),
+    "title" TEXT (255),
+    "price" TEXT (255)
 );
  ''');
     // print(" onCreate =====================================");
@@ -129,5 +130,103 @@ class SqlDb {
     String path = join(databasepath, 'ecommerce.db');
     await deleteDatabase(path);
     print('done delete');
+  }
+}
+
+class Service {
+  final int? id;
+  final String? employeeName;
+  final String? image;
+  final String? title;
+  final String? price;
+
+  Service({
+    this.id,
+    this.employeeName,
+    this.image,
+    this.title,
+    this.price,
+  });
+
+  // Convert a Service object into a Map for database operations
+  Map<String, dynamic> toMap() {
+    return {
+      'service_id': id,
+      'employee_name': employeeName,
+      'image': image,
+      'title': title,
+      'price': price,
+    };
+  }
+}
+
+class DatabaseHelper {
+  static Database? _database;
+
+  Future<Database> get database async {
+    if (_database != null) {
+      return _database!;
+    }
+    _database = await initDatabase();
+    return _database!;
+  }
+
+  Future<Database> initDatabase() async {
+    final path = await getDatabasesPath();
+    final databasePath = join(path, 'services.db');
+
+    return await openDatabase(
+      databasePath,
+      version: 1,
+      onCreate: (db, version) async {
+        await db.execute('''
+          CREATE TABLE services (
+            service_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            employee_name TEXT,
+            image TEXT,
+            title TEXT,
+            price TEXT
+          )
+        ''');
+      },
+    );
+  }
+
+  Future<int> insertService(Service service) async {
+    final db = await database;
+    return await db.insert('services', service.toMap());
+  }
+
+  Future<List<Service>> getServices() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('services');
+    return List.generate(maps.length, (i) {
+      return Service(
+        id: maps[i]['service_id'],
+        employeeName: maps[i]['employee_name'],
+        image: maps[i]['image'],
+        title: maps[i]['title'],
+        price: maps[i]['price'],
+      );
+    });
+  }
+
+  Future<int> updateService(Service service) async {
+    final db = await database;
+    return await db.update(
+      'services',
+      service.toMap(),
+      where: 'service_id = ?',
+      whereArgs: [service.id],
+    );
+  }
+
+  Future<int> deleteService(int id) async {
+    final db = await database;
+    return await db.delete(
+      'services',
+      where: 'service_id = ?',
+      whereArgs: [id],
+    );
   }
 }

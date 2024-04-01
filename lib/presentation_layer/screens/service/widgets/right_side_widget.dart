@@ -1,20 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pos_animal/data_layer/database/sqlflite.dart';
 
 import '../../../components/custom_butten.dart';
 import '../../../components/custom_text_field.dart';
 import '../../../components/dash_line.dart';
 import '../../../resources/color_manager.dart';
 
+List<Service> services = [];
+
 class RightSideWidget extends StatefulWidget {
-   RightSideWidget({super.key,required this.controller});
+  RightSideWidget({super.key, required this.controller});
   final PageController controller;
   @override
   State<RightSideWidget> createState() => _RightSideWidgetState();
 }
 
 class _RightSideWidgetState extends State<RightSideWidget> {
+  DatabaseHelper dbHelper = DatabaseHelper();
+  int price = 0;
   String selectedOption = 'Pay';
+  @override
+  @override
+  void initState() {
+    super.initState();
+    dbHelper = DatabaseHelper();
+    loadServices();
+  }
+
+  Future<void> loadServices() async {
+    services = await dbHelper.getServices();
+    print('All services:');
+    services.forEach((service) {
+      price += int.parse(service.price!);
+      print(
+          'ID: ${service.id}, Employee Name: ${service.employeeName}, Title: ${service.title}');
+    });
+    setState(() {}); // Update the UI after loading services
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,8 +50,7 @@ class _RightSideWidgetState extends State<RightSideWidget> {
           children: [
             //customer information widget
             Padding(
-              padding:
-              EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
+              padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
               child: Column(
                 children: [
                   //toggle switch
@@ -38,8 +61,8 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                       color: ColorManager.feathery,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 5.w, vertical: 5.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -132,7 +155,7 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                   ),
                   // Select time
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       widget.controller.jumpToPage(8);
                     },
                     child: CustomTextfield(
@@ -148,7 +171,11 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                       height: 50.h,
                       verticalPadding: -2.h,
                       horizontalPadding: 10.w,
-                      suffixIcon: Icon(Icons.calendar_month,color: ColorManager.kPrimary,size: 20.h,),
+                      suffixIcon: Icon(
+                        Icons.calendar_month,
+                        color: ColorManager.kPrimary,
+                        size: 20.h,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -170,8 +197,7 @@ class _RightSideWidgetState extends State<RightSideWidget> {
             Divider(),
             // service details
             Padding(
-              padding:
-              EdgeInsets.symmetric(vertical: 0.h, horizontal: 20.w),
+              padding: EdgeInsets.symmetric(vertical: 0.h, horizontal: 20.w),
               child: Column(
                 children: [
                   Align(
@@ -185,7 +211,7 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                   SizedBox(
                     height: 180.h,
                     child: ListView.builder(
-                        itemCount: 3,
+                        itemCount: services.length,
                         itemBuilder: (context, index) {
                           return Container(
                             padding: EdgeInsets.symmetric(
@@ -202,10 +228,10 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                                       height: 80.h,
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                          BorderRadius.circular(10),
+                                              BorderRadius.circular(10),
                                           image: DecorationImage(
                                             image: NetworkImage(
-                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTEnb4bQKUe6UZLmUIKn1u5BqsTmyTA0S8TA&usqp=CAU',
+                                              services[index].image ?? "",
                                             ),
                                             fit: BoxFit.cover,
                                           )),
@@ -218,16 +244,16 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                                       height: 80.h,
                                       child: Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                            MainAxisAlignment.center,
                                         children: [
                                           SizedBox(
                                             height: 26.h,
                                             child: Text(
-                                              'Hair Cut',
+                                              services[index].title ?? "",
                                               style: TextStyle(
-                                                fontSize: 18.h,
+                                                fontSize: 15.h,
                                                 fontWeight: FontWeight.w700,
                                               ),
                                             ),
@@ -248,11 +274,10 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                                           SizedBox(
                                             height: 26.h,
                                             child: Text(
-                                              '\$10.99',
+                                              '\$ ${services[index].price ?? ""}',
                                               style: TextStyle(
                                                 fontSize: 18.h,
-                                                color:
-                                                ColorManager.kPrimary,
+                                                color: ColorManager.kPrimary,
                                                 fontWeight: FontWeight.w700,
                                               ),
                                             ),
@@ -264,8 +289,8 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                                     //change amount
                                     Container(
                                       alignment: Alignment.bottomLeft,
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 10.h),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 10.h),
                                       child: Row(
                                         children: [
                                           Container(
@@ -327,8 +352,7 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(30))),
-              padding:
-              EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
+              padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
               child: Column(
                 children: [
                   Align(
@@ -391,7 +415,7 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                             ),
                             Spacer(),
                             Text(
-                              '\$10.99',
+                              '\$ $price',
                               style: TextStyle(
                                 fontSize: 18.sp,
                                 color: ColorManager.black,
@@ -403,13 +427,13 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                         Row(
                           children: [
                             Text(
-                              "Tax(10%)",
+                              "descount",
                               style: TextStyle(
                                   fontSize: 18.sp, color: Colors.grey),
                             ),
                             Spacer(),
                             Text(
-                              '\$1.87',
+                              '\$0.00',
                               style: TextStyle(
                                 fontSize: 18.sp,
                                 color: ColorManager.black,
@@ -434,12 +458,11 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                       children: [
                         Text(
                           "Total",
-                          style: TextStyle(
-                              fontSize: 18.sp, color: Colors.grey),
+                          style: TextStyle(fontSize: 18.sp, color: Colors.grey),
                         ),
                         Spacer(),
                         Text(
-                          '\$ 64.00',
+                          '\$ $price',
                           style: TextStyle(
                             fontSize: 18.sp,
                             color: ColorManager.kPrimary,
@@ -449,7 +472,9 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 10.h,),
+                  SizedBox(
+                    height: 10.h,
+                  ),
                   CustomButton(
                     backgroundColor: ColorManager.kPrimary,
                     text: "Pay Now",
