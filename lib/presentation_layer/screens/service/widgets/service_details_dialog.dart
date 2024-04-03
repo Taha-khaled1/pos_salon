@@ -136,47 +136,47 @@ class _ShowDialogServiceState extends State<ShowDialogService> {
                   ),
                   Spacer(),
                   //change amount
-                  Container(
-                    alignment: Alignment.bottomLeft,
-                    padding: EdgeInsets.symmetric(vertical: 10.h),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 35.h,
-                          width: 35.w,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Color(0xffE4E4E4)),
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.remove,
-                            size: 20.w,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        Text(
-                          '1',
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        Container(
-                          height: 35.h,
-                          width: 35.w,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Color(0xff19191C)),
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.add,
-                            size: 20.w,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   alignment: Alignment.bottomLeft,
+                  //   padding: EdgeInsets.symmetric(vertical: 10.h),
+                  //   child: Row(
+                  //     children: [
+                  //       Container(
+                  //         height: 35.h,
+                  //         width: 35.w,
+                  //         decoration: BoxDecoration(
+                  //             shape: BoxShape.circle, color: Color(0xffE4E4E4)),
+                  //         alignment: Alignment.center,
+                  //         child: Icon(
+                  //           Icons.remove,
+                  //           size: 20.w,
+                  //           color: Colors.grey,
+                  //         ),
+                  //       ),
+                  //       SizedBox(width: 10.w),
+                  //       Text(
+                  //         '1',
+                  //         style: TextStyle(
+                  //           fontSize: 18.sp,
+                  //           fontWeight: FontWeight.bold,
+                  //         ),
+                  //       ),
+                  //       SizedBox(width: 10.w),
+                  //       Container(
+                  //         height: 35.h,
+                  //         width: 35.w,
+                  //         decoration: BoxDecoration(
+                  //             shape: BoxShape.circle, color: Color(0xff19191C)),
+                  //         alignment: Alignment.center,
+                  //         child: Icon(
+                  //           Icons.add,
+                  //           size: 20.w,
+                  //           color: Colors.grey,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             ),

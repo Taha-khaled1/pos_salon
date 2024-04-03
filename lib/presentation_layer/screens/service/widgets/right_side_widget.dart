@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pos_animal/data_layer/database/database.dart';
 import 'package:pos_animal/data_layer/database/sqlflite.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:pos_animal/presentation_layer/src/show_toast.dart';
+import 'dart:convert';
 import '../../../components/custom_butten.dart';
 import '../../../components/custom_text_field.dart';
 import '../../../components/dash_line.dart';
@@ -19,8 +22,10 @@ class RightSideWidget extends StatefulWidget {
 class _RightSideWidgetState extends State<RightSideWidget> {
   DatabaseHelper dbHelper = DatabaseHelper();
   int price = 0;
+  int discount = 0;
   String selectedOption = 'Pay';
-  @override
+  int customernumber = 0;
+  int indvidual = 0;
   @override
   void initState() {
     super.initState();
@@ -35,10 +40,12 @@ class _RightSideWidgetState extends State<RightSideWidget> {
       price += int.parse(service.price!);
       print(
           'ID: ${service.id}, Employee Name: ${service.employeeName}, Title: ${service.title}');
+      // dbHelper.deleteService(service.id!);
     });
     setState(() {}); // Update the UI after loading services
   }
 
+  String code = '';
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -143,6 +150,9 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                     },
                     onSaved: (text) {
                       return null;
+                    },
+                    onChanged: (p0) {
+                      customernumber = int.parse(p0);
                     },
                     titel: "Customer Number",
                     width: 310.w,
@@ -287,50 +297,50 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                                     ),
                                     Spacer(),
                                     //change amount
-                                    Container(
-                                      alignment: Alignment.bottomLeft,
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10.h),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            height: 35.h,
-                                            width: 35.w,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Color(0xffE4E4E4)),
-                                            alignment: Alignment.center,
-                                            child: Icon(
-                                              Icons.remove,
-                                              size: 20.w,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                          SizedBox(width: 10.w),
-                                          Text(
-                                            '1',
-                                            style: TextStyle(
-                                              fontSize: 18.sp,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(width: 10.w),
-                                          Container(
-                                            height: 35.h,
-                                            width: 35.w,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Color(0xff19191C)),
-                                            alignment: Alignment.center,
-                                            child: Icon(
-                                              Icons.add,
-                                              size: 20.w,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                    // Container(
+                                    //   alignment: Alignment.bottomLeft,
+                                    //   padding:
+                                    //       EdgeInsets.symmetric(vertical: 10.h),
+                                    //   child: Row(
+                                    //     children: [
+                                    //       Container(
+                                    //         height: 35.h,
+                                    //         width: 35.w,
+                                    //         decoration: BoxDecoration(
+                                    //             shape: BoxShape.circle,
+                                    //             color: Color(0xffE4E4E4)),
+                                    //         alignment: Alignment.center,
+                                    //         child: Icon(
+                                    //           Icons.remove,
+                                    //           size: 20.w,
+                                    //           color: Colors.grey,
+                                    //         ),
+                                    //       ),
+                                    //       SizedBox(width: 10.w),
+                                    //       Text(
+                                    //         '1',
+                                    //         style: TextStyle(
+                                    //           fontSize: 18.sp,
+                                    //           fontWeight: FontWeight.bold,
+                                    //         ),
+                                    //       ),
+                                    //       SizedBox(width: 10.w),
+                                    //       Container(
+                                    //         height: 35.h,
+                                    //         width: 35.w,
+                                    //         decoration: BoxDecoration(
+                                    //             shape: BoxShape.circle,
+                                    //             color: Color(0xff19191C)),
+                                    //         alignment: Alignment.center,
+                                    //         child: Icon(
+                                    //           Icons.add,
+                                    //           size: 20.w,
+                                    //           color: Colors.grey,
+                                    //         ),
+                                    //       ),
+                                    //     ],
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                                 Divider(
@@ -372,6 +382,9 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                         onSaved: (text) {
                           return null;
                         },
+                        onChanged: (p0) {
+                          code = p0.toString();
+                        },
                         titel: "Promo code",
                         width: 220.w,
                         height: 50.h,
@@ -388,7 +401,49 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                           child: CustomButton(
                             backgroundColor: ColorManager.beige,
                             text: "Apply",
-                            press: () {},
+                            press: () async {
+                              Curd curd = Curd();
+                              // API endpoint URL
+                              String url =
+                                  'https://salon-app.nanots.ae/api/v1/user/apply-coupon';
+
+                              // Request body
+                              Map<String, String> body = {
+                                'code': code,
+                              };
+
+                              try {
+                                // Make POST request
+                                http.Response response = await http.post(
+                                  Uri.parse(url),
+                                  body: json.encode(body),
+                                  headers: curd.myheaders3,
+                                );
+                                var responser = jsonDecode(response.body);
+                                // Check status code
+                                if (response.statusCode == 200) {
+                                  // Successful request
+                                  print('Coupon applied successfully!');
+                                  print('Response body: ${response.body}');
+                                  int percentage = int.parse(
+                                      responser['data']['discount_percentage']);
+                                  price -= (price * percentage) ~/ 100;
+                                  discount += (price * percentage) ~/ 100;
+                                  showToast('Coupon applied successfully!');
+                                } else {
+                                  // Request failed
+
+                                  print('Failed to apply coupon. $responser');
+                                  print('Status code: ${response.statusCode}');
+                                  print('Response body: ${response.body}');
+                                  showToast('Failed to apply coupon.');
+                                }
+                              } catch (e) {
+                                // Exception occurred
+                                print('Exception: $e');
+                              }
+                              setState(() {});
+                            },
                             colorText: ColorManager.kPrimary,
                             fontSize: 14.sp,
                             rectangel: 10,
@@ -433,7 +488,7 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                             ),
                             Spacer(),
                             Text(
-                              '\$0.00',
+                              '\$ $discount',
                               style: TextStyle(
                                 fontSize: 18.sp,
                                 color: ColorManager.black,

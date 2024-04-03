@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pos_animal/presentation_layer/screens/service/widgets/right_side_widget.dart';
-
+import 'package:easy_date_timeline/easy_date_timeline.dart';
 import '../../components/custom_elevated_button.dart';
 import '../../components/custom_text_field.dart';
 import '../../resources/color_manager.dart';
@@ -25,14 +25,21 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
   ];
   int selectedIndex = 0;
 
-
   // number of individuals
   int selectedNumberIndex = -1;
-  final List<String> numbers = ['1', '2', '3', '4', '5', '6', '7','8+'];
+  final List<String> numbers = ['1', '2', '3', '4', '5', '6', '7', '8+'];
 
   // date
   int selectedDayIndex = -1;
-  final List<String> weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  final List<String> weekdays = [
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+    'Sun'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +49,7 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
         children: [
           Expanded(
             child: Padding(
-              padding:  EdgeInsets.symmetric(vertical: 20.h,horizontal: 20.w),
+              padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +111,8 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
                                   padding: EdgeInsets.symmetric(
                                     horizontal: 10.w,
                                   ),
-                                  margin: EdgeInsets.symmetric(horizontal: 10.w),
+                                  margin:
+                                      EdgeInsets.symmetric(horizontal: 10.w),
                                   child: Center(
                                     child: Text(
                                       items[index],
@@ -124,9 +132,12 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20.h,),
+                  SizedBox(
+                    height: 20.h,
+                  ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Color(0xffFAFAFA),
@@ -134,16 +145,19 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
                     child: Column(
                       children: [
                         Padding(
-                          padding:  EdgeInsets.symmetric(horizontal: 10.w),
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
                           child: Row(
                             children: [
                               Text(
                                 "New reservation",
-                                style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w700),
+                                style: TextStyle(
+                                    fontSize: 24.sp,
+                                    fontWeight: FontWeight.w700),
                               ),
                               Spacer(),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                               )
                             ],
                           ),
@@ -152,14 +166,18 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
                           color: ColorManager.kPrimary,
                         ),
                         Padding(
-                          padding:  EdgeInsets.symmetric(horizontal: 20.w,vertical: 20.h),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20.w, vertical: 20.h),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Number of individuals",style: TextStyle(
-                                fontSize: 16.sp
-                              ),),
-                              SizedBox(height: 5.h,),
+                              Text(
+                                "Number of individuals",
+                                style: TextStyle(fontSize: 16.sp),
+                              ),
+                              SizedBox(
+                                height: 5.h,
+                              ),
                               Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
@@ -172,48 +190,86 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
                                   border: TableBorder.all(
                                       width: 0.5,
                                       color: Colors.grey,
-                                      borderRadius: BorderRadius.circular(10)
-                                  ),
+                                      borderRadius: BorderRadius.circular(10)),
                                   children: [
                                     TableRow(
                                       children: List.generate(
                                         numbers.length,
-                                            (index) => buildTableCell(index,numbers),
+                                        (index) =>
+                                            buildTableCell(index, numbers),
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 10.h,),
-                              Text("select date",style: TextStyle(
-                                  fontSize: 16.sp
-                              ),),
-                              SizedBox(height: 5.h,),
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 0.5,
-                                    color: Colors.grey,
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Text(
+                                "select date",
+                                style: TextStyle(fontSize: 16.sp),
+                              ),
+                              SizedBox(
+                                height: 5.h,
+                              ),
+                              
+                              EasyDateTimeLine(
+                                  initialDate: DateTime.now(),
+                                  onDateChange: (selectedDate) {
+                                    //`selectedDate` the new date selected.
+                                  },
+                                  headerProps: const EasyHeaderProps(
+                                    monthPickerType: MonthPickerType.switcher,
+                                    dateFormatter: DateFormatter.fullDateDMY(),
                                   ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Table(
-                                  border: TableBorder.all(
-                                      width: 0.5,
-                                      color: Colors.grey,
-                                      borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  children: [
-                                    TableRow(
-                                      children: List.generate(
-                                        weekdays.length,
-                                            (index) => buildTableCell2(index,weekdays),
+                                  dayProps: const EasyDayProps(
+                                    dayStructure: DayStructure.dayStrDayNum,
+                                    activeDayStyle: DayStyle(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Color(0xff3371FF),
+                                            Color(0xff8426D6),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
+                              // Container(
+                              //   decoration: BoxDecoration(
+                              //     border: Border.all(
+                              //       width: 0.5,
+                              //       color: Colors.grey,
+                              //     ),
+                              //     borderRadius: BorderRadius.circular(10),
+                              //   ),
+                              //   child: Table(
+                              //     border: TableBorder.all(
+                              //         width: 0.5,
+                              //         color: Colors.grey,
+                              //         borderRadius: BorderRadius.circular(10)),
+                              //     children: [
+                              //       TableRow(
+                              //         children: List.generate(
+                              //           weekdays.length,
+                              //           (index) =>
+                              //               buildTableCell2(index, weekdays),
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              SizedBox(
+                                height: 30.h,
                               ),
-                              SizedBox(height: 30.h,),
+                              TimeSlotSelector(),
+                              SizedBox(
+                                height: 30.h,
+                              ),
                               Row(
                                 children: [
                                   CustomElevatedButton(
@@ -221,27 +277,28 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
                                     width: 400.w,
                                     backgroundColor: Colors.white,
                                     borderColor: ColorManager.kPrimary,
-                                    text: 'cancel', onPressed: () {},
+                                    text: 'cancel',
+                                    onPressed: () {},
                                     textSize: 18.sp,
                                     textColor: ColorManager.kPrimary,
                                     iconColor: ColorManager.kPrimary,
                                     borderRadius: 30,
-
                                   ),
-                                  SizedBox(width: 10.w,),
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
                                   CustomElevatedButton(
                                     height: 50.h,
                                     width: 400.w,
                                     backgroundColor: ColorManager.kPrimary,
                                     borderColor: ColorManager.kPrimary,
-                                    text: 'continue', onPressed: () {},
+                                    text: 'continue',
+                                    onPressed: () {},
                                     textSize: 18.sp,
                                     textColor: ColorManager.white,
                                     iconColor: ColorManager.kPrimary,
                                     borderRadius: 30,
-
                                   ),
-
                                 ],
                               )
                             ],
@@ -255,12 +312,14 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
                 ],
               ),
             ),
-          ),RightSideWidget(controller: widget.controller)
+          ),
+          RightSideWidget(controller: widget.controller)
         ],
       ),
     );
   }
-  TableCell buildTableCell(int index,List myList) {
+
+  TableCell buildTableCell(int index, List myList) {
     final bool isSelected = selectedNumberIndex == index;
     return TableCell(
       child: GestureDetector(
@@ -285,7 +344,8 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
       ),
     );
   }
-  TableCell buildTableCell2(int index,List myList) {
+
+  TableCell buildTableCell2(int index, List myList) {
     final bool isSelected = selectedDayIndex == index;
     return TableCell(
       child: GestureDetector(
@@ -319,6 +379,66 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class TimeSlotSelector extends StatefulWidget {
+  @override
+  _TimeSlotSelectorState createState() => _TimeSlotSelectorState();
+}
+
+class _TimeSlotSelectorState extends State<TimeSlotSelector> {
+  List<String> _timeSlots = [
+    '09:00 AM', '09:15 AM', '11:00 AM', // ... Add all the times
+    '12:45 PM', '01:00 PM', '01:15 PM', // ... Continue for all slots
+    '02:45 PM', '03:00 PM', '05:15 PM', // ... Add remaining slots
+    '06:00 PM', '07:15 AM', '07:45 AM', // ... And so on
+    '08:30 PM', '08:45 AM', // '09:00 AM', // ... Until the end
+  ];
+
+  String? _selectedTimeSlot;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 160,
+      child: GridView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4, // Adjust number of columns
+          childAspectRatio: 3.0, // Adjust the aspect ratio
+        ),
+        itemCount: _timeSlots.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedTimeSlot = _timeSlots[index];
+              });
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: _selectedTimeSlot == _timeSlots[index]
+                    ? Colors.yellow
+                    : Colors.white,
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              alignment: Alignment.center,
+              margin: EdgeInsets.all(4.0),
+              child: Text(
+                _timeSlots[index],
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
