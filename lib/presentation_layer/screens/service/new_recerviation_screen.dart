@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pos_animal/presentation_layer/screens/home_screen/controller/home_controller.dart';
+import 'package:pos_animal/presentation_layer/screens/home_screen/home_screen.dart';
 import 'package:pos_animal/presentation_layer/screens/service/widgets/right_side_widget.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
+import 'package:pos_animal/presentation_layer/src/account_url.dart';
 import '../../components/custom_elevated_button.dart';
 import '../../components/custom_text_field.dart';
 import '../../resources/color_manager.dart';
@@ -40,7 +43,7 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
     'Sat',
     'Sun'
   ];
-
+  HomeController homeController = Get.find();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -64,77 +67,77 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
                   SizedBox(
                     height: 10.h,
                   ),
-                  Row(
-                    children: [
-                      //search field
-                      CustomTextfield(
-                        icon: Icons.search,
-                        verticalPadding: 0,
-                        height: 45.h,
-                        validator: (search) {
-                          return null;
-                        },
-                        onSaved: (search) {
-                          return null;
-                        },
-                        titel: "Search date...",
-                        width: 430.w,
-                      ),
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                      // filter widget
-                      Expanded(
-                        child: SizedBox(
-                          height: 38.h,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: items.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedIndex = index;
-                                  });
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: selectedIndex == index
-                                          ? ColorManager.beige
-                                          : Colors.white,
-                                      borderRadius: BorderRadius.circular(30),
-                                      border: Border.all(
-                                        width: 1,
-                                        color: ColorManager.grey2,
-                                      )),
-                                  alignment: Alignment.center,
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 10.w,
-                                  ),
-                                  margin:
-                                      EdgeInsets.symmetric(horizontal: 10.w),
-                                  child: Center(
-                                    child: Text(
-                                      items[index],
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
-                                        color: selectedIndex == index
-                                            ? ColorManager.kPrimary
-                                            : Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
+                  // Row(
+                  //   children: [
+                  //     //search field
+                  //     CustomTextfield(
+                  //       icon: Icons.search,
+                  //       verticalPadding: 0,
+                  //       height: 45.h,
+                  //       validator: (search) {
+                  //         return null;
+                  //       },
+                  //       onSaved: (search) {
+                  //         return null;
+                  //       },
+                  //       titel: "Search date...",
+                  //       width: 430.w,
+                  //     ),
+                  //     SizedBox(
+                  //       width: 20.w,
+                  //     ),
+                  //     // filter widget
+                  //     Expanded(
+                  //       child: SizedBox(
+                  //         height: 38.h,
+                  //         child: ListView.builder(
+                  //           scrollDirection: Axis.horizontal,
+                  //           itemCount: items.length,
+                  //           itemBuilder: (BuildContext context, int index) {
+                  //             return GestureDetector(
+                  //               onTap: () {
+                  //                 setState(() {
+                  //                   selectedIndex = index;
+                  //                 });
+                  //               },
+                  //               child: Container(
+                  //                 decoration: BoxDecoration(
+                  //                     color: selectedIndex == index
+                  //                         ? ColorManager.beige
+                  //                         : Colors.white,
+                  //                     borderRadius: BorderRadius.circular(30),
+                  //                     border: Border.all(
+                  //                       width: 1,
+                  //                       color: ColorManager.grey2,
+                  //                     )),
+                  //                 alignment: Alignment.center,
+                  //                 padding: EdgeInsets.symmetric(
+                  //                   horizontal: 10.w,
+                  //                 ),
+                  //                 margin:
+                  //                     EdgeInsets.symmetric(horizontal: 10.w),
+                  //                 child: Center(
+                  //                   child: Text(
+                  //                     items[index],
+                  //                     style: TextStyle(
+                  //                       fontSize: 16.sp,
+                  //                       color: selectedIndex == index
+                  //                           ? ColorManager.kPrimary
+                  //                           : Colors.black,
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //             );
+                  //           },
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: 20.h,
+                  // ),
                   Container(
                     padding:
                         EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
@@ -212,33 +215,41 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
                               SizedBox(
                                 height: 5.h,
                               ),
-                              
+
                               EasyDateTimeLine(
-                                  initialDate: DateTime.now(),
-                                  onDateChange: (selectedDate) {
-                                    //`selectedDate` the new date selected.
-                                  },
-                                  headerProps: const EasyHeaderProps(
-                                    monthPickerType: MonthPickerType.switcher,
-                                    dateFormatter: DateFormatter.fullDateDMY(),
-                                  ),
-                                  dayProps: const EasyDayProps(
-                                    dayStructure: DayStructure.dayStrDayNum,
-                                    activeDayStyle: DayStyle(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [
-                                            Color(0xff3371FF),
-                                            Color(0xff8426D6),
-                                          ],
-                                        ),
+                                initialDate: DateTime.now(),
+                                onDateChange: (selectedDate) {
+                                  homeController.selectedDateN = selectedDate;
+                                },
+                                headerProps: const EasyHeaderProps(
+                                  monthPickerType: MonthPickerType.switcher,
+                                  dateFormatter: DateFormatter.fullDateDMY(),
+                                ),
+                                dayProps: const EasyDayProps(
+                                  width: 120,
+                                  height: 70,
+                                  dayStructure: DayStructure.dayStrDayNum,
+                                  activeDayStyle: DayStyle(
+                                    dayNumStyle: TextStyle(color: Colors.black),
+                                    monthStrStyle:
+                                        TextStyle(color: ColorManager.black),
+                                    dayStrStyle:
+                                        TextStyle(color: ColorManager.black),
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8)),
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Color(0xffFFFACA),
+                                          Color(0xffFFFACA),
+                                        ],
                                       ),
                                     ),
                                   ),
                                 ),
+                              ),
                               // Container(
                               //   decoration: BoxDecoration(
                               //     border: Border.all(
@@ -278,7 +289,9 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
                                     backgroundColor: Colors.white,
                                     borderColor: ColorManager.kPrimary,
                                     text: 'cancel',
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Get.offAll(() => HomeScreen());
+                                    },
                                     textSize: 18.sp,
                                     textColor: ColorManager.kPrimary,
                                     iconColor: ColorManager.kPrimary,
@@ -287,17 +300,31 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
                                   SizedBox(
                                     width: 10.w,
                                   ),
-                                  CustomElevatedButton(
-                                    height: 50.h,
-                                    width: 400.w,
-                                    backgroundColor: ColorManager.kPrimary,
-                                    borderColor: ColorManager.kPrimary,
-                                    text: 'continue',
-                                    onPressed: () {},
-                                    textSize: 18.sp,
-                                    textColor: ColorManager.white,
-                                    iconColor: ColorManager.kPrimary,
-                                    borderRadius: 30,
+                                  GetBuilder<HomeController>(
+                                    init: HomeController(),
+                                    initState: (_) {},
+                                    builder: (_) {
+                                      return _.isLoad1
+                                          ? Center(
+                                              child:
+                                                  CircularProgressIndicator())
+                                          : CustomElevatedButton(
+                                              height: 50.h,
+                                              width: 400.w,
+                                              backgroundColor:
+                                                  ColorManager.kPrimary,
+                                              borderColor:
+                                                  ColorManager.kPrimary,
+                                              text: 'Pay Now',
+                                              onPressed: () {
+                                                homeController.createOrder();
+                                              },
+                                              textSize: 18.sp,
+                                              textColor: ColorManager.white,
+                                              iconColor: ColorManager.kPrimary,
+                                              borderRadius: 30,
+                                            );
+                                    },
                                   ),
                                 ],
                               )
@@ -320,12 +347,14 @@ class _NewRecerviationScreenState extends State<NewRecerviationScreen> {
   }
 
   TableCell buildTableCell(int index, List myList) {
+    HomeController homeController = Get.find();
     final bool isSelected = selectedNumberIndex == index;
     return TableCell(
       child: GestureDetector(
         onTap: () {
           setState(() {
             selectedNumberIndex = index;
+            homeController.indvidual = selectedNumberIndex;
           });
         },
         child: Container(
@@ -399,7 +428,7 @@ class _TimeSlotSelectorState extends State<TimeSlotSelector> {
   ];
 
   String? _selectedTimeSlot;
-
+  HomeController homeController = Get.find();
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -417,6 +446,8 @@ class _TimeSlotSelectorState extends State<TimeSlotSelector> {
             onTap: () {
               setState(() {
                 _selectedTimeSlot = _timeSlots[index];
+                homeController.slot = _selectedTimeSlot!.split(' ').first;
+                print(_selectedTimeSlot!.split(' ').first);
               });
             },
             child: Container(

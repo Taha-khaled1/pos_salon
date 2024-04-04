@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, depend_on_referenced_packages
 
+import 'package:pos_animal/presentation_layer/screens/home_screen/controller/home_controller.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -148,7 +149,7 @@ class Service {
     this.price,
   });
 
-  // Convert a Service object into a Map for database operations
+// Convert a Service object into a Map for database operations
   Map<String, dynamic> toMap() {
     return {
       'service_id': id,
@@ -156,6 +157,19 @@ class Service {
       'image': image,
       'title': title,
       'price': price,
+    };
+  }
+
+  // Convert a Service object into the required JSON format
+  Map<String, dynamic> toJson(data) {
+    return {
+      'service_id': id,
+      'employee_name': employeeName,
+      'image': image,
+      'title': title,
+      'price': price,
+      'time_from': data,
+      'time_to': contime(data),
     };
   }
 }

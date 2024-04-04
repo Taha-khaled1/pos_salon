@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:pos_animal/data_layer/database/database.dart';
 import 'package:pos_animal/data_layer/database/sqlflite.dart';
 import 'package:http/http.dart' as http;
+import 'package:pos_animal/presentation_layer/screens/home_screen/controller/home_controller.dart';
 import 'package:pos_animal/presentation_layer/src/show_toast.dart';
 import 'dart:convert';
 import '../../../components/custom_butten.dart';
@@ -21,11 +23,9 @@ class RightSideWidget extends StatefulWidget {
 
 class _RightSideWidgetState extends State<RightSideWidget> {
   DatabaseHelper dbHelper = DatabaseHelper();
-  int price = 0;
-  int discount = 0;
+  HomeController homeController = Get.put(HomeController());
   String selectedOption = 'Pay';
-  int customernumber = 0;
-  int indvidual = 0;
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +37,7 @@ class _RightSideWidgetState extends State<RightSideWidget> {
     services = await dbHelper.getServices();
     print('All services:');
     services.forEach((service) {
-      price += int.parse(service.price!);
+      homeController.price += int.parse(service.price!);
       print(
           'ID: ${service.id}, Employee Name: ${service.employeeName}, Title: ${service.title}');
       // dbHelper.deleteService(service.id!);
@@ -152,7 +152,7 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                       return null;
                     },
                     onChanged: (p0) {
-                      customernumber = int.parse(p0);
+                      homeController.customernumber = int.parse(p0);
                     },
                     titel: "Customer Number",
                     width: 310.w,
@@ -427,8 +427,12 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                                   print('Response body: ${response.body}');
                                   int percentage = int.parse(
                                       responser['data']['discount_percentage']);
-                                  price -= (price * percentage) ~/ 100;
-                                  discount += (price * percentage) ~/ 100;
+                                  homeController.price -=
+                                      (homeController.price * percentage) ~/
+                                          100;
+                                  homeController.discount +=
+                                      (homeController.price * percentage) ~/
+                                          100;
                                   showToast('Coupon applied successfully!');
                                 } else {
                                   // Request failed
@@ -470,7 +474,7 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                             ),
                             Spacer(),
                             Text(
-                              '\$ $price',
+                              '\$ ${homeController.price}',
                               style: TextStyle(
                                 fontSize: 18.sp,
                                 color: ColorManager.black,
@@ -488,7 +492,7 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                             ),
                             Spacer(),
                             Text(
-                              '\$ $discount',
+                              '\$ ${homeController.discount}',
                               style: TextStyle(
                                 fontSize: 18.sp,
                                 color: ColorManager.black,
@@ -517,7 +521,7 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                         ),
                         Spacer(),
                         Text(
-                          '\$ $price',
+                          '\$ ${homeController.price}',
                           style: TextStyle(
                             fontSize: 18.sp,
                             color: ColorManager.kPrimary,
@@ -530,15 +534,21 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                   SizedBox(
                     height: 10.h,
                   ),
-                  CustomButton(
-                    backgroundColor: ColorManager.kPrimary,
-                    text: "Pay Now",
-                    press: () {},
-                    height: 40.h,
-                    width: 310.w,
-                    fontSize: 16.sp,
-                    rectangel: 30,
-                  )
+                  GetBuilder<HomeController>(builder: (_) {
+                    return _.isLoad1
+                        ? Center(child: CircularProgressIndicator())
+                        : CustomButton(
+                            backgroundColor: ColorManager.kPrimary,
+                            text: "Pay Now",
+                            press: () {
+                              homeController.createOrder();
+                            },
+                            height: 40.h,
+                            width: 310.w,
+                            fontSize: 16.sp,
+                            rectangel: 30,
+                          );
+                  })
                 ],
               ),
             )
